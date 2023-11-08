@@ -37,14 +37,31 @@ const popUp = window.alert
 let quizIndex = 0;
 let score = 0;
 
+
 // スタート画面表示（選択肢ボタンは非表示）
 const setUpStart = () => {
      $question.textContent = quizStart.question;
      let setUpIndex = 0;
      $items.style.visibility = 'hidden';
-    };
+};
 
 setUpStart();
+
+
+//カウントダウンタイマー読み込み後3秒
+let timeLeft = 3;
+const $seconds = document.getElementById("seconds");
+const countdown = () => {
+     timeLeft--;
+     $seconds.textContent =  timeLeft ;
+     if (timeLeft > 0) {
+          setTimeout(`countdown()`, 1000);
+	}else{
+          $seconds.style.visibility='hidden';}
+};
+
+setTimeout(`countdown()`, 1000);
+
 
 // 問題セット（初回3秒待ち）（選択肢ボタンは表示）
 const SetUpQuiz = () => {
@@ -59,6 +76,15 @@ const SetUpQuiz = () => {
 
 setTimeout(`SetUpQuiz()`,3000);
 
+// ボタンにイベント機能付与
+let handlerIndex = 0;
+    while (handlerIndex < $buttonLen) {
+     $buttons[handlerIndex].addEventListener('click', (e) => {
+     clickHandler(e);
+     });
+    handlerIndex++;
+    };
+
 // 結果画面⇒コンティニュー画面（続ける：再読込　キャンセル：すべて非表示）
 const gameOver = () =>{
 　　　$items.style.visibility = 'hidden';
@@ -67,18 +93,9 @@ const gameOver = () =>{
         if(confirm(`もう一度挑戦しますか？`)){
           location.reload();
         }else{
-          popUp(`Thank you playing!!`)
+          popUp(`Thank you for playing!!`)
      };
 };
-
-// ボタンにイベント機能付与
-let handlerIndex = 0;
-    while (handlerIndex < $buttonLen) {
-     $buttons[handlerIndex].addEventListener('click', (e) => {
-     clickHandler(e);
-    });
-    handlerIndex++;
-    };
 
 // 正誤判定（コメント表示）⇒次問OR結果画面
 const clickHandler = (e) => {
@@ -100,17 +117,5 @@ const clickHandler = (e) => {
 };
 
 
-//カウントダウンタイマー読み込み後3秒
-let timeLeft = 3;
-const $seconds = document.getElementById("seconds");
-const countdown = () => {
-	timeLeft--;
-	$seconds.textContent =  timeLeft ;
-	if (timeLeft > 0) {
-		setTimeout(`countdown()`, 1000);
-	}else{
-          $seconds.style.visibility='hidden';}
-};
-setTimeout(`countdown()`, 1000);
 
 
