@@ -91,3 +91,16 @@ const clickHandler = (e) => {
      　 gameOver();
     }
 };
+
+//カウントダウンタイマー
+timeLeft = 3;
+const $seconds = document.getElementById("seconds");
+function countdown() {
+	timeLeft--;
+	$seconds.innerHTML = String( timeLeft );
+	if (timeLeft > 0) {
+		setTimeout(countdown, 1000);
+	}else{
+          $seconds.style.visibility='hidden';}
+};
+setTimeout(countdown, 1000);
