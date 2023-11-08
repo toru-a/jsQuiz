@@ -1,7 +1,5 @@
 const quizStart= {
      question: '準備はいい？まもなくスタート！',
-    //  answers: [ 'もちろん！', 'YES!', '頑張ります！', '満点狙います。'],
-
     };
 
 const quiz = [
@@ -30,11 +28,18 @@ const quiz = [
 const $doc = document;
 const $question = $doc.getElementById('js-question');
 const $buttons = $doc.getElementsByTagName('button');
-const $buttonLen=$buttons.length;
+const $buttonLen = $buttons.length;
 const quizLen = quiz.length;
 const $items = $doc.getElementById('js-items');
+const popUp = window.alert
 let quizIndex = 0;
 let score = 0;
+
+const setUpStart = () => {
+     $question.textContent = quizStart.question;
+     let setUpIndex = 0;
+     $items.style.visibility = 'hidden';
+    };
 
 const SetUpQuiz = () => {
     $question.textContent = quiz[quizIndex].question;
@@ -46,45 +51,43 @@ const SetUpQuiz = () => {
     $items.style.visibility = 'visible';
   };
 
-const setUpStart = () => {
-    $question.textContent = quizStart.question;
-    let setUpIndex = 0;
-    // while(setUpIndex< $buttonLen){
-    //     $buttons[setUpIndex].textContent = quizStart.answers[setUpIndex];
-    // setUpIndex++;
-    //   };
-      $items.style.visibility = 'hidden';
-    };
-
 setUpStart();
 
 setTimeout(`SetUpQuiz()`,3000);
 
+const gameOver = () =>{
+　　　$items.style.visibility = 'hidden';
+　　　$question.style.visibility = 'hidden';
+        popUp('終了！あなたのスコアは' + score + '/' + quizLen + 'です');
+        if(confirm(`もう一度挑戦しますか？`)){
+          location.reload();
+        }else{
+          popUp(`Thank you playing!!`)
+     };
+};
+
 let handlerIndex = 0;
     while (handlerIndex < $buttonLen) {
-    $buttons[handlerIndex].addEventListener('click', (e) => {
-    clickHandler(e);
+     $buttons[handlerIndex].addEventListener('click', (e) => {
+     clickHandler(e);
     });
     handlerIndex++;
     };
 
-
 const clickHandler = (e) => {
     let answer = quiz[quizIndex].answers.indexOf(e.target.textContent);
     if( quiz[quizIndex].correct === e.target.textContent){
-        window.alert(`正解！`);
-        window.alert(quiz[quizIndex].correctExp);
+        popUp(`正解！`);
+        popUp(quiz[quizIndex].correctExp);
         score++
     }else{
-        window.alert(`不正解！`);
-        window.alert(quiz[quizIndex].correctExp2[answer]);
+        popUp(`不正解！`);
+        popUp(quiz[quizIndex].correctExp2[answer]);
     }
     quizIndex++
-    if( quizIndex<quizLen){
+    if( quizIndex < quizLen ){
         SetUpQuiz();
     }else{
-        window.alert('終了！あなたのスコアは' + score + '/' + quizLen + 'です');
-        $items.style.visibility = 'hidden';
+     　 gameOver();
     }
 };
-
