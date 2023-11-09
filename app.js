@@ -51,13 +51,15 @@ setUpStart();
 //カウントダウンタイマー読み込み後3秒
 let timeLeft = 3;
 const $seconds = document.getElementById("seconds");
+const $clock = document.getElementById("clock");
 const countdown = () => {
      timeLeft--;
      $seconds.textContent =  timeLeft ;
      if (timeLeft > 0) {
           setTimeout(`countdown()`, 1000);
 	}else{
-          $seconds.style.visibility='hidden';}
+          $seconds.style.visibility='hidden';
+          $clock.style.visibility='hidden';}
 };
 
 setTimeout(`countdown()`, 1000);
